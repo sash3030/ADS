@@ -1,101 +1,111 @@
 
-#include <iostream>
+#include<iostream>
+
 using namespace std;
 
-class heap{
-int* max;
-int* min;
-int n;
+class heap
 
-public:
-	heap(int d){
-		n=d;
-		max=new int[n+1];
-		max[0]=0;
-		min=new int[n+1];
-		min[0]=0;
-	}
-	void getdata(int);
-	void createmin(int);
-	void createmax(int);
-	void print();
+{
+	int max,n1 = 0,n2 = 0;;
+	int *data1;
+	int *data2;
+	
+	public:
+	
+	heap(int max)
+		{
+			this->max = max;
+			data1 = new int[max + 1];
+			data2 = new int[max + 1];
+		}
+	
+	void min_heap(int);
+	void max_heap(int);	
+	void display();
 };
 
-void heap::print(){
-	cout<<"\nMINIMUM MARKS ARE: "<<min[1]<<"\nMAXIMUM MARKS ARE: "<<max[1]<<"\n";
+void heap :: min_heap(int x)
+
+{
+	int i;
+	if(n1 == max)
+		cout<<"ENTRIES ARE FULL"<<endl;
+		
+	else
+		{
+			n1++;
+			for(i = n1;i >= 1;)
+				{
+					if(i == 1)
+						break;
+					
+					if(x >= data1[i/2])
+						break;
+					
+					else
+						{
+							data1[i] = data1[i/2];
+							i = i/2;		
+						}	
+				}
+				
+			data1[i] = x;		
+		}
+}	
+
+void heap :: max_heap(int x)
+
+{
+	int i;
+	if(n2  == max)
+		cout<<"ENTRIES ARE FULL"<<endl;
+		
+	else
+		{
+			n2++;
+			for(i = n2;i >= 1;)
+				{
+					if(i == 1)
+						break;
+					
+					if(x <= data2[i/2])
+						break;
+					
+					else
+						{
+							data2[i] = data2[i/2];
+							i = i/2;		
+						}	
+				}
+				
+			data2[i] = x;		
+		}
+}	
+
+void heap :: display()
+
+{
+	cout<<"\nMINIMUM MARKS:"<<data1[1]<<endl;
+	cout<<"MAXIMUM MARKS:"<<data2[1]<<endl;
 }
 
-void heap::createmin(int i){
-	int temp;
+int main()
 
-	while(i>1 && min[i]<min[i/2])
-			{
-					temp=min[i];
-					min[i]=min[i/2];
-					min[i/2]=temp;
-				i=i/2;
-			}
+{
+	int no,marks;
+	cout<<"Enter the number of students"<<endl;
+	cin>>no;
+	heap h(no);
+	cout<<"Enter the marks"<<endl;
+	
+	for(int i = 0;i<no;i++)
+		{
+			cin>>marks;
+			h.min_heap(marks);
+			h.max_heap(marks);
+		}
+	
+	h.display();	
+		
+	return 0;	
 }
-void heap::createmax(int i){
-	int temp;
-
-	while(i>1 && max[i]>max[i/2])
-			{
-					temp=max[i];
-					max[i]=max[i/2];
-					max[i/2]=temp;
-				i=i/2;
-			}
-
-}
-
-
-
-void heap::getdata(int x){
-	min[++min[0]]=x;
-	max[++max[0]]=x;
-	createmax(max[0]);
-	createmin(min[0]);
-}
-
-
-int main() {
-	int n,x;
-cout<<"\nEnter the Number of students";
-cin>>n;
-heap obj(n);
-for(int i=0;i<n;i++){
-	cout<<"\n Enter Marks: ";
-	cin>>x;
-	while(x<0){
-	cout<<"Please enter positive value: ";
-	cin>>x;
-	}
-	obj.getdata(x);
-	}
-obj.print();
-
-	return 0;
-}
-/*
-shreyas@shreyas:~/2416$ g++ A9.cpp
-shreyas@shreyas:~/2416$ ./a.out
-
-Enter the Number of students6
-
- Enter Marks: 43
-
- Enter Marks: 25
-
- Enter Marks: 91
-
- Enter Marks: 67
-
- Enter Marks: 57
-
- Enter Marks: 59
-
-MINIMUM MARKS ARE: 25
-MAXIMUM MARKS ARE: 91
-shreyas@shreyas:~/2416$ 
-*/
